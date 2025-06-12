@@ -1,5 +1,5 @@
 base_model: gpt2
-adapter_repo: peft-internal-testing/gpt2-lora-random  
+adapter_repo: peft-internal-testing/gpt2-lora-random   
 adapter_type: LoRA
 tasks:
   - sst2
