@@ -6,8 +6,8 @@ to the peft-bench-metrics Parquet on Hugging Face.
 """
 import datetime, os, subprocess, tempfile, yaml, pandas as pd
 from huggingface_hub import login, HfApi
-from transformers import AutoTokenizer
-from peft import AutoPeftModelForCausalLM, PeftModel
+from transformers import AutoModelForCausalLM
+from peft import PeftModel
 from lm_eval import evaluator
 
 # -------- 1. load manifest --------------------------------------------------
@@ -21,7 +21,7 @@ ADAPTER_TYPE = cfg.get("adapter_type", "LoRA")
 
 # -------- 2. load model & tokenizer ----------------------------------------
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=True)
-base = AutoPeftModelForCausalLM.from_pretrained(BASE_MODEL, device_map="auto")
+base = AutoModelForCausalLM.from_pretrained(BASE_MODEL, device_map="auto")
 model = PeftModel.from_pretrained(base, ADAPTER_REPO)
 model.eval()
 
