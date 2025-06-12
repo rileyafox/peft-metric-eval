@@ -16,9 +16,10 @@ import pandas as pd
 import yaml
 from huggingface_hub import HfApi, login
 from lm_eval import evaluator
-from lm_eval.models.huggingface import HuggingFace
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from lm_eval.models.huggingface import HFLM
+
 
 # ─────────────────────────────────────────────────────────────
 # 1. Load manifest (peft_bench.yaml)
@@ -42,7 +43,7 @@ model = PeftModel.from_pretrained(base_model, ADAPTER_REPO)
 model.eval()
 
 # 4. Wrap in lm-eval’s HuggingFace adapter
-hf_lm = HuggingFace(model_name=None, model=model, tokenizer=tokenizer)
+hf_lm = HFLM(model_name=None, model=model, tokenizer=tokenizer)
 
 # ─────────────────────────────────────────────────────────────
 # 3. Run evaluation (no tokenizer kwarg)
