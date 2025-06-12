@@ -1,0 +1,6 @@
+base_model: meta-llama/Llama-2-7b-hf
+adapter_repo: Mdrnfox/my-lora-checkpoint
+adapter_type: LoRA
+tasks:
+  - squad_v2
+  - mmlu

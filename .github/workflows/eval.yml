@@ -1,0 +1,29 @@
+name: evaluate
+on:
+  pull_request:
+    paths:
+      - "peft_bench.yaml"
+
+jobs:
+  run-eval:
+    runs-on: ubuntu-latest         # swap to self-hosted GPU runner if you have one
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
+          pip install peft transformers lm_eval huggingface_hub pyyaml pandas pyarrow
+
+      - name: Run evaluation
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_DATASET_REPO: ${{ secrets.HF_DATASET_REPO }}
+        run: |
+          export HF_TOKEN=$HF_TOKEN
+          python evaluate.py
