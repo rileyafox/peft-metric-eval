@@ -6,7 +6,7 @@ to the peft-bench-metrics Parquet on Hugging Face.
 """
 import datetime, os, subprocess, tempfile, yaml, pandas as pd
 from huggingface_hub import login, HfApi
-from transformers import AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 from lm_eval import evaluator
 
