@@ -1,4 +1,4 @@
-base_model: gpt2
+base_model: gpt2 
 adapter_repo: peft-internal/gpt2-sst2-lora 
 adapter_type: LoRA
 tasks:
