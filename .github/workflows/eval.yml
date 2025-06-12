@@ -1,12 +1,17 @@
 name: evaluate
+
 on:
+  push:
+    paths:
+      - "peft_bench.yaml"
+
   pull_request:
     paths:
       - "peft_bench.yaml"
 
 jobs:
   run-eval:
-    runs-on: ubuntu-latest         # swap to self-hosted GPU runner if you have one
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -26,4 +31,4 @@ jobs:
           HF_DATASET_REPO: ${{ secrets.HF_DATASET_REPO }}
         run: |
           export HF_TOKEN=$HF_TOKEN
-          python evaluate.py
+          python run_eval.py       
