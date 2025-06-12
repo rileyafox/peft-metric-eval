@@ -24,7 +24,7 @@ jobs:
         run: |
           pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
           pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
-          pip install peft transformers "lm_eval==0.3.0" huggingface_hub pyyaml pandas pyarrow
+          pip install peft transformers lm_eval huggingface_hub pyyaml pandas pyarrow
 
       - name: Run evaluation
         env:
