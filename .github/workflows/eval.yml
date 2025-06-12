@@ -31,4 +31,4 @@ jobs:
           HF_DATASET_REPO: ${{ secrets.HF_DATASET_REPO }}
         run: |
           export HF_TOKEN=$HF_TOKEN
-          python run_eval.py       
+          python evaluate.py       
