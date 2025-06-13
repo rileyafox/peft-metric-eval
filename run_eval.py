@@ -77,22 +77,25 @@ results = evaluator.simple_evaluate(
 # ─────────────────────────────────────────────────────────────
 # 5. Flatten results → DataFrame
 # ─────────────────────────────────────────────────────────────
-rows = []
+METRICS_TO_KEEP = {"acc", "accuracy", "acc_stderr", "f1", "exact_match"}
+
 meta = {
     "model_id": ADAPTER_REPO,
     "adapter_type": ADAPTER_TYPE,
     "trainable_params": cfg.get("trainable_params"),
     "peak_gpu_mem_mb": None,
     "run_date": datetime.datetime.utcnow().isoformat(timespec="seconds"),
-    "commit_sha": subprocess.check_output(
-        ["git", "rev-parse", "HEAD"]
-    ).strip().decode(),
+    "commit_sha": subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode(),
 }
-for task, scores in results["results"].items():
-    for metric, value in scores.items():
+
+rows = []
+for task, score_dict in results["results"].items():
+    for metric, value in score_dict.items():
+        if metric not in METRICS_TO_KEEP:
+            continue          # skip "alias" or other helper metrics
         rows.append({**meta, "task": task, "metric": metric, "value": value})
 
-df = pd.DataFrame(rows)
+df_new = pd.DataFrame(rows)
 
 # ─────────────────────────────────────────────────────────────
 # 6. Append to Parquet on the Hub
