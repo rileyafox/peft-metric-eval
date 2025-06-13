@@ -31,6 +31,8 @@ with open("peft_bench.yaml") as f:
 token = os.getenv("HF_TOKEN")
 if token and token != "***":
     login(token)
+else:
+    raise RuntimeError("HF_TOKEN not available in this workflow run.")
 DATASET_REPO = os.environ["HF_DATASET_REPO"] 
 api = HfApi()
 
