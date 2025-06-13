@@ -45,13 +45,15 @@ model.eval()
 # 3. Wrap in the *new* lm-eval Hugging Face wrapper
 #    - `pretrained` is REQUIRED even if you give model+tokenizer objects
 # ─────────────────────────────────────────────────────────────
-hf_lm = HFLM(
-    pretrained=BASE_MODEL,        
-    model=model,
-    tokenizer=tokenizer,
-    batch_size=1,               # keep tiny for CPU runner
-    device="cpu",
-)
+with tempfile.TemporaryDirectory() as tmp_dir:
+    model.save_pretrained(tmp_dir)
+    tokenizer.save_pretrained(tmp_dir)
+
+    hf_lm = HFLM(
+        pretrained=tmp_dir,        # ← MUST be a real folder or Hub ID
+        batch_size=1,              # keep tiny for CPU runner
+        device="cpu",
+    )
 
 # ─────────────────────────────────────────────────────────────
 # 4. Run evaluation
