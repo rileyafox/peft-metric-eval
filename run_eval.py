@@ -38,15 +38,17 @@ ADAPTER_TYPE = cfg.get("adapter_type", "LoRA")
 # ─────────────────────────────────────────────────────────────
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=True)
 base_model = AutoModelForCausalLM.from_pretrained(BASE_MODEL)
-model = PeftModel.from_pretrained(base_model, ADAPTER_REPO)
-model.eval()
+peft_model   = PeftModel.from_pretrained(base_model, ADAPTER_REPO)
+
+merged_model = peft_model.merge_and_unload() 
+merged_model.eval()           
 
 # ─────────────────────────────────────────────────────────────
 # 3. Wrap in the *new* lm-eval Hugging Face wrapper
 #    - `pretrained` is REQUIRED even if you give model+tokenizer objects
 # ─────────────────────────────────────────────────────────────
 with tempfile.TemporaryDirectory() as tmp_dir:
-    model.save_pretrained(tmp_dir)
+    merged_model.save_pretrained(tmp_dir) 
     tokenizer.save_pretrained(tmp_dir)
 
     hf_lm = HFLM(
