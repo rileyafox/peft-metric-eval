@@ -100,7 +100,7 @@ with tempfile.TemporaryDirectory() as tmp:
         local_dir_use_symlinks=False,
     )
     df_existing = pd.read_parquet(current_path)
-     df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+    df_combined = pd.concat([df_existing, df_new], ignore_index=True)
 
     df_combined = (
         df_combined
