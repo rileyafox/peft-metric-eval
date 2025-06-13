@@ -47,7 +47,7 @@ model.eval()
 # ─────────────────────────────────────────────────────────────
 hf_lm = HFLM(
     pretrained="unused",        # any non-null string satisfies the arg
-    model=model,
+    model=BASE_MODEL,
     tokenizer=tokenizer,
     batch_size=1,               # keep tiny for CPU runner
     device="cpu",
