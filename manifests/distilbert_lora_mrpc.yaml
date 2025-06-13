@@ -1,0 +1,5 @@
+base_model: distilbert-base-uncased
+adapter_repo: rambodazimi/distilbert-base-lora-mrpc
+adapter_type: LoRA
+tasks:
+  - mrpc
