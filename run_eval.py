@@ -28,7 +28,9 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 with open("peft_bench.yaml") as f:
     cfg = yaml.safe_load(f)
     
-login(os.environ["HF_TOKEN"])
+token = os.getenv("HF_TOKEN")
+if token and token != "***":
+    login(token)
 DATASET_REPO = os.environ["HF_DATASET_REPO"] 
 api = HfApi()
 
