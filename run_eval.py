@@ -46,8 +46,8 @@ model.eval()
 #    - `pretrained` is REQUIRED even if you give model+tokenizer objects
 # ─────────────────────────────────────────────────────────────
 hf_lm = HFLM(
-    pretrained="unused",        # any non-null string satisfies the arg
-    model=BASE_MODEL,
+    pretrained=BASE_MODEL,        
+    model=model,
     tokenizer=tokenizer,
     batch_size=1,               # keep tiny for CPU runner
     device="cpu",
