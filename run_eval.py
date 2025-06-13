@@ -27,6 +27,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 # ─────────────────────────────────────────────────────────────
 with open("peft_bench.yaml") as f:
     cfg = yaml.safe_load(f)
+    
+login(os.environ["HF_TOKEN"])
+DATASET_REPO = os.environ["HF_DATASET_REPO"] 
+api = HfApi()
+
 
 BASE_MODEL = cfg["base_model"]        
 ADAPTER_REPO = cfg["adapter_repo"]
@@ -88,10 +93,6 @@ df = pd.DataFrame(rows)
 # ─────────────────────────────────────────────────────────────
 # 6. Append to Parquet on the Hub
 # ─────────────────────────────────────────────────────────────
-login()                                    # reads HF_TOKEN env var
-DATASET_REPO = os.environ["HF_DATASET_REPO"] 
-api = HfApi()
-
 with tempfile.TemporaryDirectory() as tmpdir:
     current_path = api.hf_hub_download(
         repo_id=DATASET_REPO,
