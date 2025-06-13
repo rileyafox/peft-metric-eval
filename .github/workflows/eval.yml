@@ -2,8 +2,6 @@ name: evaluate
 
 on:
   push:
-    paths:
-      - "peft_bench.yaml"
 
   pull_request:
     paths:
