@@ -108,6 +108,8 @@ with tempfile.TemporaryDirectory() as tmpdir:
     )
     existing = pd.read_parquet(current_path)
     combined = pd.concat([existing, df], ignore_index=True)
+    combined["value"] = pd.to_numeric(combined["value"], errors="coerce")
+
     combined.to_parquet("peft_bench.parquet", index=False)
 
     api.upload_file(
