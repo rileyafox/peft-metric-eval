@@ -100,23 +100,25 @@ df_new = pd.DataFrame(rows)
 # ─────────────────────────────────────────────────────────────
 # 6. Append to Parquet on the Hub
 # ─────────────────────────────────────────────────────────────
-with tempfile.TemporaryDirectory() as tmpdir:
+with tempfile.TemporaryDirectory() as tmp:
     current_path = api.hf_hub_download(
         repo_id=DATASET_REPO,
         filename="data/peft_bench.parquet",
         repo_type="dataset",
-        cache_dir=tmpdir,
-        local_dir=tmpdir,
+        cache_dir=tmp,
+        local_dir=tmp,
         local_dir_use_symlinks=False,
     )
-    existing = pd.read_parquet(current_path)
-    combined = pd.concat([existing, df], ignore_index=True)
-    combined["value"] = pd.to_numeric(combined["value"], errors="coerce")
+    df_existing = pd.read_parquet(current_path)
 
-    combined.to_parquet("peft_bench.parquet", index=False)
+    df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+    df_combined["value"] = pd.to_numeric(df_combined["value"], errors="coerce")
+
+    out_path = Path("peft_bench.parquet")
+    df_combined.to_parquet(out_path, index=False)
 
     api.upload_file(
-        path_or_fileobj="peft_bench.parquet",
+        path_or_fileobj=out_path,
         path_in_repo="data/peft_bench.parquet",
         repo_id=DATASET_REPO,
         repo_type="dataset",
